@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jana Raafat — AI Engineer in Progress</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    --bg: #0A0E17;
+    --bg-elevated: #10151F;
+    --bg-card: #141A27;
+    --border: #232B3D;
+    --text: #E8ECF4;
+    --text-muted: #8D96AC;
+    --text-dim: #5A6478;
+    --accent-1: #2DD4E8;
+    --accent-2: #A78BFA;
+    --accent-3: #F472B6;
+    --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2) 55%, var(--accent-3));
+    --font-display: 'Space Grotesk', 'Segoe UI', sans-serif;
+    --font-body: 'Inter', 'Segoe UI', sans-serif;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      --bg: #F3F5FA; --bg-elevated: #FFFFFF; --bg-card: #FFFFFF;
+      --border: #E1E5F0; --text: #141826; --text-muted: #4F586C; --text-dim: #8891A6;
+    }
+  }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  * { box-sizing: inherit; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: var(--font-body); line-height: 1.6;
+    overflow-x: hidden;
+  }
+  img, svg { max-width: 100%; }
+  a, button { outline-offset: 3px; }
+  a:focus-visible, button:focus-visible, .btn:focus-visible, .contact-pill:focus-visible {
+    outline: 2px solid var(--accent-1); border-radius: 6px;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 28px; }
+  section { position: relative; }
+  h1, h2, h3 { font-family: var(--font-display); letter-spacing: -0.01em; }
+
+  /* ---------- NAV ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    padding-top: env(safe-area-inset-top, 0px);
+    background: rgba(10,14,23,0.72); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) header.nav { background: rgba(243,245,250,0.78); }
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+  .logo span { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  nav.links { display: flex; gap: 26px; }
+  nav.links a { color: var(--text-muted); text-decoration: none; font-size: 0.92rem; transition: color .2s ease; }
+  nav.links a:hover, nav.links a:focus-visible { color: var(--text); }
+  .nav-toggle { display: none; background: none; border: 1px solid var(--border); border-radius: 8px; color: var(--text); width: 38px; height: 38px; font-size: 1.1rem; cursor: pointer; }
+  @media (max-width: 760px) {
+    nav.links { position: fixed; inset: 64px 0 auto 0; flex-direction: column; background: var(--bg-elevated); border-bottom: 1px solid var(--border); padding: 18px 28px; gap: 16px; transform: translateY(-120%); opacity: 0; transition: transform .3s ease, opacity .3s ease; }
+    nav.links.open { transform: translateY(0); opacity: 1; }
+    .nav-toggle { display: block; }
+  }
+
+  /* ---------- HERO ---------- */
+  .hero { min-height: 92vh; display: flex; align-items: center; position: relative; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background-image: radial-gradient(circle, rgba(141,150,172,0.16) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 0%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, black 0%, transparent 75%);
+  }
+  #net { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; opacity: .55; }
+  .hero-content { position: relative; z-index: 1; padding: 100px 0 60px; }
+  .eyebrow-line { display: flex; align-items: center; gap: 10px; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 22px; }
+  .eyebrow-line .dash { width: 28px; height: 2px; background: var(--gradient); display: inline-block; border-radius: 2px; }
+  .hero h1 { font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700; line-height: 1.05; max-width: 14ch; }
+  .hero h1 .grad { background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero p.lede { margin-top: 24px; max-width: 54ch; font-size: 1.1rem; color: var(--text-muted); }
+  .hero-ctas { margin-top: 38px; display: flex; gap: 16px; flex-wrap: wrap; }
+  .hero-stats { margin-top: 56px; display: flex; gap: 28px; flex-wrap: wrap; }
+  .hero-stat { padding-left: 16px; border-left: 2px solid var(--border); }
+  .hero-stat b { display: block; font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; }
+  .hero-stat span { color: var(--text-muted); font-size: 0.85rem; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 10px; font-size: 0.95rem; font-weight: 500; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; cursor: pointer; border: 1px solid transparent; }
+  .btn-primary { background: var(--gradient); color: #06080D; font-weight: 600; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 34px -10px rgba(167,139,250,0.55); }
+  .btn-ghost { border-color: var(--border); color: var(--text); background: transparent; }
+  .btn-ghost:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+
+  /* ---------- SECTIONS ---------- */
+  .section { padding: 92px 0; border-top: 1px solid var(--border); }
+  .section-head { margin-bottom: 44px; max-width: 60ch; }
+  .section-head .tag { color: var(--accent-2); font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .section-head .tag::before { content: ""; width: 16px; height: 2px; background: var(--gradient); border-radius: 2px; display: inline-block; }
+  .section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.3rem); margin-top: 8px; font-weight: 600; }
+  .section-head p { color: var(--text-muted); margin-top: 12px; font-size: 1.02rem; }
+
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+  }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
+  .about-grid p { color: var(--text-muted); margin-bottom: 16px; max-width: 58ch; }
+  .quote-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; position: relative; overflow: hidden; }
+  .quote-card::before { content: ""; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--gradient); }
+  .quote-card p { font-family: var(--font-display); font-size: 1.05rem; color: var(--text); font-style: italic; }
+  @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; } }
+
+  /* Icon */
+  .icon { width: 26px; height: 26px; flex-shrink: 0; }
+
+  /* Education + Skills */
+  .edu-card { display: flex; gap: 18px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 40px; }
+  .edu-icon { width: 46px; height: 46px; border-radius: 12px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .edu-card h3 { font-size: 1.08rem; font-weight: 600; }
+  .edu-card .period { color: var(--accent-1); font-size: 0.85rem; margin: 4px 0 8px; }
+  .edu-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+  .skills-group { margin-bottom: 30px; }
+  .skills-group-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .skills-group-head h4 { font-size: 0.98rem; font-weight: 600; color: var(--text); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .tag {
+    padding: 8px 15px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text-muted); font-size: 0.88rem;
+    transition: transform .25s cubic-bezier(.2,.9,.3,1.3), box-shadow .25s ease, color .25s ease, border-color .25s ease, opacity .25s ease, filter .25s ease;
+    cursor: default; white-space: nowrap;
+  }
+  .tag-row:hover .tag:not(:hover) { opacity: .4; filter: saturate(.3); }
+  .tag:hover {
+    color: var(--text); border-color: var(--accent-2);
+    transform: translateY(-7px) scale(1.07);
+    box-shadow: 0 16px 30px -12px rgba(167,139,250,0.6);
+    background: var(--bg-elevated);
+  }
+
+  /* Experience timeline */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before { content: ""; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--accent-1), var(--accent-3)); }
+  .t-item { position: relative; padding-bottom: 36px; }
+  .t-item:last-child { padding-bottom: 0; }
+  .t-dot { position: absolute; left: -28px; top: 4px; width: 14px; height: 14px; border-radius: 50%; background: var(--gradient); box-shadow: 0 0 0 4px var(--bg); }
+  .t-item h3 { font-size: 1.05rem; font-weight: 600; }
+  .t-item ul { margin-top: 10px; padding-left: 18px; color: var(--text-muted); font-size: 0.95rem; }
+  .t-item li { margin-bottom: 6px; }
+
+  /* Projects */
+  .project-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+    padding: 30px; margin-bottom: 26px; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+  .project-card:hover { transform: translateY(-5px); border-color: var(--accent-2); box-shadow: 0 22px 44px -22px rgba(45,212,232,0.35); }
+  .project-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .project-card h3 { font-size: 1.25rem; font-weight: 600; }
+  .project-badge { font-size: 0.78rem; padding: 5px 12px; border-radius: 999px; background: var(--bg-elevated); color: var(--accent-1); border: 1px solid var(--border); white-space: nowrap; }
+  .project-card p.desc { color: var(--text-muted); margin: 14px 0 16px; max-width: 65ch; }
+  .project-card ul { padding-left: 18px; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 14px; }
+  .project-card li { margin-bottom: 6px; }
+  .impact { font-size: 0.9rem; color: var(--accent-2); font-weight: 500; }
+
+  /* Services */
+  .service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .service-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; transition: transform .3s ease, border-color .3s ease; }
+  .service-card:hover { transform: translateY(-5px); border-color: var(--accent-1); }
+  .service-card .edu-icon { margin-bottom: 16px; }
+  .service-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+  .service-card p { color: var(--text-muted); font-size: 0.92rem; }
+  @media (max-width: 700px) { .service-grid { grid-template-columns: 1fr; } }
+
+  /* Achievements */
+  .ach-card { display: flex; gap: 18px; align-items: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 26px; }
+  .ach-card p { color: var(--text-muted); margin-top: 6px; }
+  .ach-card h3 { font-size: 1.08rem; font-weight: 600; }
+
+  /* CTA / contact */
+  .cta-section { text-align: center; padding: 110px 0; }
+  .cta-section h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; max-width: 20ch; margin: 0 auto; }
+  .cta-section p { color: var(--text-muted); margin-top: 16px; max-width: 50ch; margin-left: auto; margin-right: auto; }
+  .contact-row { display: flex; justify-content: center; gap: 16px; margin-top: 38px; flex-wrap: wrap; }
+  .contact-pill {
+    display: flex; align-items: center; gap: 10px; padding: 13px 22px; border-radius: 12px;
+    background: var(--bg-card); border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 0.95rem;
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .contact-pill:hover { transform: translateY(-5px) scale(1.04); border-color: var(--accent-2); box-shadow: 0 16px 34px -14px rgba(244,114,182,0.45); }
+
+  footer { text-align: center; padding: 30px 0 calc(30px + env(safe-area-inset-bottom, 0px)); color: var(--text-dim); font-size: 0.85rem; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2DD4E8"/>
+      <stop offset="55%" stop-color="#A78BFA"/>
+      <stop offset="100%" stop-color="#F472B6"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="logo">Jana <span>Raafat</span></div>
+    <nav class="links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#services">Services</a>
+      <a href="#achievements">Achievements</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <canvas id="net"></canvas>
+  <div class="wrap hero-content">
+    <div class="eyebrow-line"><span class="dash"></span> AI Engineer in Progress · Data Science Trainee</div>
+    <h1>Turning data into<br><span class="grad">decisions that matter.</span></h1>
+    <p class="lede">I'm Jana — I build machine learning models, clean up messy datasets, and design the dashboards that help people actually see what's inside their numbers.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">See my projects</a>
+      <a href="#contact" class="btn btn-ghost">Let's connect</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><b>DEPI</b><span>AI &amp; Data Science Trainee</span></div>
+      <div class="hero-stat"><b>3rd Place</b><span>Volt x AI Energy Competition</span></div>
+      <div class="hero-stat"><b>2</b><span>Featured projects</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">About</div>
+      <h2>Curious about numbers, driven by what they can do</h2>
+    </div>
+    <div class="about-grid">
+      <div>
+        <p>Hi, I'm Jana — an aspiring AI Engineer and Data Science Trainee with a deep love for mathematics and the way it powers intelligent systems.</p>
+        <p>My journey into AI and data started with genuine curiosity: I've always been fascinated by how raw numbers can be transformed into patterns, predictions, and real decisions. That curiosity turned into a strong passion for machine learning, data analysis, and building solutions that actually matter to people and businesses.</p>
+        <p>I don't just build models — I care about the story the data tells and how it can create real impact, whether that's optimizing energy usage, streamlining a pharmacy's workflow, or turning messy datasets into clear, actionable dashboards.</p>
+      </div>
+      <div class="quote-card">
+        <p>"I speak Python fluently, argue with datasets daily, and I'm always up for turning chaos into clean, meaningful insights."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="education">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">Education &amp; Skills</div>
+      <h2>What I've studied, and what I build with</h2>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 9L12 4l9 5-9 5-9-5z" stroke="url(#grad)" stroke-width="1.8" stroke-linejoin="round"/><path d="M7 11.5V17c0 1.1 2.2 2 5 2s5-.9 5-2v-5.5" stroke="url(#grad)" stroke-width="1.8"/></svg></div>
+      <div>
+        <h3>Faculty of Computer and Information Science — Damanhour University</h3>
+        <div class="period">2025 – 2029</div>
+      </div>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6z" stroke="url(#grad)" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+      <div>
+        <h3>Data Science &amp; AI Traineeship — Digital Egypt Pioneers Initiative (DEPI)</h3>
+        <p>Hands-on training in data processing, building and training machine learning models, and applying software engineering best practices for model testing.</p>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-head">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13 6l-2 12" stroke="url(#grad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Programming Languages</h4>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Python</span><span class="tag">Java</span><span class="tag">SQL</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-head">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 19V10M10 19V5M16 19v-8M22 19H2" stroke="url(#grad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Data Analysis &amp; Processing</h4>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Data Cleaning</span><span class="tag">Exploratory Data Analysis (EDA)</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-head">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="url(#grad)" stroke-width="1.7"/><path d="M3 12h18M12 3a14 14 0 010 18 14 14 0 010-18z" stroke="url(#grad)" stroke-width="1.5"/></svg>
+        <h4>Data Collection &amp; Visualization</h4>
+      </div>
+      <div class="tag-row">
+        <span class="tag">BeautifulSoup</span><span class="tag">Requests</span><span class="tag">Selenium</span><span class="tag">Matplotlib</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-head">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="7" y="7" width="10" height="10" rx="1.5" stroke="url(#grad)" stroke-width="1.7"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.5 4.5l2 2M19.5 4.5l-2 2M4.5 19.5l2-2M19.5 19.5l-2-2" stroke="url(#grad)" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <h4>AI &amp; Development Tools</h4>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Machine Learning Foundations</span><span class="tag">MySQL Workbench</span><span class="tag">VS Code</span><span class="tag">Google Colab</span><span class="tag">Jupyter Notebook</span>
+      </div>
+    </div>
+
+    <div class="skills-group">
+      <div class="skills-group-head">
+        <svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 21l4-1 11-11-3-3L4 17l-1 4z" stroke="url(#grad)" stroke-width="1.7" stroke-linejoin="round"/></svg>
+        <h4>Design &amp; UI/UX</h4>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Figma</span><span class="tag">Canva</span><span class="tag">Wireframing</span><span class="tag">Dashboard Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="experience">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">Work Experience</div>
+      <h2>Where I've put the learning to work</h2>
+    </div>
+    <div class="timeline">
+      <div class="t-item">
+        <div class="t-dot"></div>
+        <h3>Data Science &amp; AI Trainee — Digital Egypt Pioneers Initiative (DEPI)</h3>
+        <ul>
+          <li>Worked on data processing and preparation for machine learning pipelines</li>
+          <li>Built and trained machine learning models from the ground up</li>
+          <li>Applied best practices in coding standards and model testing/validation</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="projects">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">Projects</div>
+      <h2>Previous work</h2>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <h3>Volt x AI — Smart Energy Optimization Platform</h3>
+        <span class="project-badge">🏆 3rd Place</span>
+      </div>
+      <p class="desc">An AI-powered energy management platform designed to monitor electricity consumption, forecast usage, and reduce peak loads across commercial and residential sectors.</p>
+      <ul>
+        <li>Developed predictive machine learning models for energy consumption forecasting and anomaly detection</li>
+        <li>Built interactive analytics dashboards with real-time energy usage visualization and gamified load-shifting recommendations</li>
+      </ul>
+      <div class="impact">Awarded 3rd place for innovative implementation and real-world scalability.</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <h3>AmanDose — Digital Pharmacy &amp; Dosage Management Concept</h3>
+        <span class="project-badge">Concept</span>
+      </div>
+      <p class="desc">A smart pharmacy management solution designed to streamline digital prescription tracking, dosage management, and operational workflows for pharmacies and patients.</p>
+      <ul>
+        <li>Designed the complete Business Model Canvas (BMC) and core system architecture</li>
+        <li>Created user-centric UI/UX wireframes and interactive prototypes using Figma and Canva</li>
+        <li>Mapped data flow requirements to integrate dosage scheduling and inventory tracking logic</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="services">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">Offered Services</div>
+      <h2>How I can help</h2>
+    </div>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-8M20 8h-4v4" stroke="url(#grad)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>Machine Learning &amp; Predictive Modeling</h3>
+        <p>Building and training AI models to forecast trends and predict outcomes from your data.</p>
+      </div>
+      <div class="service-card">
+        <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><path d="M4 19V10M10 19V5M16 19v-8M22 19H2" stroke="url(#grad)" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3>Data Analysis &amp; Visualization</h3>
+        <p>Cleaning your data, uncovering insights, and presenting them through clear, easy-to-understand dashboards.</p>
+      </div>
+      <div class="service-card">
+        <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3.2" stroke="url(#grad)" stroke-width="1.6"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3" stroke="url(#grad)" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+        <h3>Web Scraping &amp; Data Extraction</h3>
+        <p>Automatically collecting and structuring data from websites into organized, ready-to-use datasets.</p>
+      </div>
+      <div class="service-card">
+        <div class="edu-icon"><svg class="icon" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="2" stroke="url(#grad)" stroke-width="1.7"/><path d="M8 21h8M12 17v4" stroke="url(#grad)" stroke-width="1.7" stroke-linecap="round"/></svg></div>
+        <h3>UI/UX for AI Applications</h3>
+        <p>Designing simple, intuitive interfaces and interactive experiences for AI-powered applications.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="achievements">
+  <div class="wrap reveal">
+    <div class="section-head">
+      <div class="tag">Achievements</div>
+      <h2>Recognition along the way</h2>
+    </div>
+    <div class="ach-card">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" style="width:40px;height:40px"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 01-10 0V4z" stroke="url(#grad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 5H4a3 3 0 003 3M17 5h3a3 3 0 01-3 3" stroke="url(#grad)" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <div>
+        <h3>3rd Place Winner — Volt x AI Energy Optimization Competition</h3>
+        <p>Recognized for innovative implementation and real-world scalability.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" id="contact">
+  <div class="wrap reveal">
+    <h2>Let's build something with your data.</h2>
+    <p>As an AI Engineer in Progress, I'm always excited to turn data into impact. Reach out and let's talk.</p>
+    <div class="contact-row">
+      <a class="contact-pill" href="mailto:Janasqa63@gmail.com">
+        <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="url(#grad)" stroke-width="1.7"/><path d="M3 7l9 6 9-6" stroke="url(#grad)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Janasqa63@gmail.com
+      </a>
+      <a class="contact-pill" href="https://www.linkedin.com/in/jana-raafat-/" target="_blank" rel="noopener">
+        <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="url(#grad)" stroke-width="1.7"/><path d="M8 10v6M8 7.5v.01M12 16v-3.5c0-1.4 1-2.5 2.5-2.5S17 11.1 17 12.5V16" stroke="url(#grad)" stroke-width="1.6" stroke-linecap="round"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-pill" href="https://github.com/janasqa63-ux" target="_blank" rel="noopener">
+        <svg class="icon" style="width:20px;height:20px" viewBox="0 0 24 24" fill="none"><path d="M12 2a10 10 0 00-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.1.39-1.99 1.03-2.69-.1-.26-.45-1.28.1-2.66 0 0 .84-.27 2.75 1.02a9.5 9.5 0 015 0c1.9-1.29 2.74-1.02 2.74-1.02.56 1.38.21 2.4.1 2.66.64.7 1.03 1.59 1.03 2.69 0 3.85-2.35 4.7-4.58 4.94.36.32.68.94.68 1.9v2.82c0 .27.18.58.69.48A10 10 0 0012 2z" stroke="url(#grad)" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 Jana Raafat</footer>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ links.classList.remove('open'); });
+  });
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll reveal
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  // Hero network animation
+  var canvas = document.getElementById('net');
+  var ctx = canvas.getContext('2d');
+  var hero = canvas.parentElement;
+  var nodes = [];
+  var w, h;
+
+  function resize(){
+    w = hero.clientWidth; h = hero.clientHeight;
+    canvas.width = w * devicePixelRatio; canvas.height = h * devicePixelRatio;
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);
+  }
+
+  function initNodes(){
+    var count = Math.min(70, Math.floor(w*h/18000));
+    nodes = [];
+    for (var i=0;i<count;i++){
+      nodes.push({
+        x: Math.random()*w, y: Math.random()*h,
+        vx: (Math.random()-0.5)*0.35, vy: (Math.random()-0.5)*0.35
+      });
+    }
+  }
+
+  var colors = ['#2DD4E8', '#A78BFA', '#F472B6'];
+
+  function draw(){
+    ctx.clearRect(0,0,w,h);
+    for (var i=0;i<nodes.length;i++){
+      var n = nodes[i];
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > w) n.vx *= -1;
+      if (n.y < 0 || n.y > h) n.vy *= -1;
+    }
+    for (var i=0;i<nodes.length;i++){
+      for (var j=i+1;j<nodes.length;j++){
+        var a = nodes[i], b = nodes[j];
+        var dx = a.x-b.x, dy = a.y-b.y;
+        var dist = Math.sqrt(dx*dx+dy*dy);
+        if (dist < 120) {
+          ctx.strokeStyle = 'rgba(167,139,250,' + (0.18*(1-dist/120)) + ')';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
+        }
+      }
+    }
+    for (var i=0;i<nodes.length;i++){
+      var n = nodes[i];
+      ctx.fillStyle = colors[i % colors.length];
+      ctx.beginPath(); ctx.arc(n.x, n.y, 1.8, 0, Math.PI*2); ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(draw);
+  }
+
+  resize(); initNodes(); draw();
+  window.addEventListener('resize', function(){ resize(); initNodes(); if (reduce) draw(); });
+})();
+</script>
+</body>
+</html>
